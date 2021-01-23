@@ -1,0 +1,28 @@
+# kubeletcfg.yaml
+--- 
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+nodeRegistration: 
+  criSocket: /var/run/containerd/containerd.sock
+  kubeletExtraArgs: 
+    cgroup-driver: systemd
+    container-runtime: remote
+    container-runtime-endpoint: "unix:///run/containerd/containerd.sock"
+    kubelet-cgroups: /systemd/system.slice
+    runtime-cgroups: /system.slice/containerd.service
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: containerd
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+networking:
+  podSubnet: "10.244.0.0/16" # --pod-network-cidr
+controlPlaneEndpoint: "192.168.56.103:6443"
+apiServer:
+  certSANs:
+    - "192.168.56.103"
+  extraArgs:
+    # 非常重要！需设置为worker node可以访问的master node ip。
+    advertise-address: "192.168.56.103"
