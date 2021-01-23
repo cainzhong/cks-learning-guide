@@ -5,7 +5,7 @@
 #### 搭建Kubernetes集群的必要条件
 
 - Ubuntu 20.04.1 LTS
-- Docker 18.09 
+- containerd 1.4.3
 - 2 GB or more of RAM per machine (any less will leave little room for your apps)
 - 2 CPUs or more
 - Full network connectivity between all machines in the cluster (public or private network is fine)
